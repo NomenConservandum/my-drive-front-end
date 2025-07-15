@@ -7,6 +7,23 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+
+    <div id="insertAPIKey" class="authentication-dialog">
+        <h2>Welcome to My Drive!</h2>
+        <h3>API key is required to proceed.</h3>
+        <form id="authForm">
+            <label for="api-key-label">API key</label><br>
+            <input type="text" id="api-key" name="api-key" required><br><br>
+            
+            <button type="button" id="api-key-submit" onclick="APIKeyInsertion()">Submit</button>
+
+            <h4 class="hint-text">Don't have an API key?</h4>
+            <div class="centered-half-width">
+                <button type="button" class="hint-button" onclick="">Contact me!</button> <!--TODO: implement-->
+            </div>
+        </form>
+    </div>
+
     <div id="signInDialog" class="authentication-dialog">
         <h2>Welcome back to My Drive!</h2>
         <form id="authForm">
