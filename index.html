@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="signInDialog" class="authentication-dialog">
+        <h2>Welcome back to My Drive!</h2>
+        <form id="authForm">
+            <label for="username-signin">Username</label><br>
+            <input type="text" id="username-signin" name="username-signin" required><br><br>
+            
+            <label for="password-signin">Password</label><br>
+            <input type="password" id="password-signin" name="password-signin" required><br><br>
+            
+            
+            <button type="submit" id="signInButton">Log In</button> <!-- TODO: FIX -->
+
+            <h4 class="hint-text">Don't have an account yet?</h4>
+            <div class="centered-half-width">
+                <button type="button" class="hint-button" onclick="signUpDialog('signInDialog')">Register!</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="signUpDialog" class="authentication-dialog">
+        <h2>Welcome to My Drive!</h2>
+        <h3>This is an experimental platform to share data.</h3>
+        <form id="authForm">
+            <label for="username-signup">Username</label><br>
+            <input type="text" id="username-signup" name="username-signup" required><br><br>
+            
+            <label for="password-signup">Password</label><br>
+            <input type="password" id="password-signup" name="password-signup" required><br><br>
+            
+            <button type="button" id="signUpButton" onclick="signUp()">Sign Up</button>  <!-- TODO: FIX -->
+
+            <h4 class="hint-text">Have an account already?</h4>
+            <div class="centered-half-width">
+                <button type="button" class="hint-button" onclick="signInDialog('signUpDialog')">Log In!</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="mainPage" class="main-page">
+    </div>
+    <script src="scripts/sensitive.js"></script>
+    <script src="scripts/auth-dialog.js"></script>
+</body>
+</html>
