@@ -19,6 +19,13 @@
         <div class="floating-form" id="upload-form">
             <h2>Upload your file</h2>
             <h4 class="hint-text">Drag n' drop or choose it from you computer</h4>
+            <div id="dropArea">
+                <p>Drag & drop files here or</p>
+                <input type="file" id="fileInput" multiple>
+                <label class="label-preview" for="fileInput">Browse Files</label>
+            </div>
+            
+            <div id="preview"></div>
             <button class="hint-button" onclick="uploadDialog()">Cancel</button>
         </div>
     </div>

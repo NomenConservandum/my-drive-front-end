@@ -168,7 +168,43 @@ button:hover {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     width: 300px;
+    height: 600px;
     position: fixed;
     cursor: pointer;
     transition: all 0.3s ease;
+}
+
+#dropArea {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 25px;
+    text-align: center;
+    margin: 20px 0;
+    transition: all 0.3s;
+}
+
+#dropArea.highlight {
+    border-color: #4CAF50;
+    background-color: rgba(76, 175, 80, 0.1);
+}
+
+#fileInput {
+    display: none;
+}
+
+.label-preview {
+    background: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.file-item {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }

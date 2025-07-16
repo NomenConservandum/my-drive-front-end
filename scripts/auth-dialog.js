@@ -108,7 +108,7 @@ async function signUp() {
             alert(
                 JSON.parse(
                     JSON.stringify(data, null, 2),
-                    {message: String} // typical error class
+                    {message: String} // typical message class
                 ).message
             )
         } else {
@@ -145,7 +145,7 @@ async function signIn() {
             alert(
                 JSON.parse(
                     JSON.stringify(data, null, 2),
-                    {message: String} // typical error class
+                    {message: String} // typical message class
                 ).message
             )
         } else {
