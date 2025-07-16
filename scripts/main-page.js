@@ -2,6 +2,40 @@
 // C(RU)D for files
 
 BaseURL = localStorage.getItem('BaseURL');
+accessToken = localStorage.getItem('accessToken');
+refreshToken = localStorage.getItem('refreshToken');
+
+async function refreshTokens(func) {
+    const responseRefresh = await fetch(BaseURL + 'refresh', {
+        method: 'POST',
+        body: {
+            access: accessToken,
+            refresh: refreshToken
+        }
+    });
+    if (!responseRefresh.ok) {
+        insertAPIKeyDialog();
+        localStorage.setItem('BaseURL', "");
+        return
+    } else { // the refreshment of the tokens went good
+        const dataRefresh = await responseRefresh.json();
+        data2 = {
+                    access: String,
+                    refresh: String,
+                } // typical token class
+        data2 = JSON.parse(
+                JSON.stringify(dataRefresh, null, 2),
+                data2
+        )
+        accessToken = data2.access
+        refreshToken = data2.refresh
+
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
+        func(); // we do it again
+        return
+    }
+}
 
 function contactPage() {
     window.location.href="contact.html";
@@ -107,18 +141,26 @@ async function uploadFile(file) {
 
     try {
         const response = await fetch(BaseURL + 'upload', {
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            },
             method: 'POST',
             body: formData
         });
         const data = await response.json();
 
         if (!response.ok) {
-            alert(
-                JSON.parse(
-                    JSON.stringify(data, null, 2),
-                    {message: String} // typical message class
-                ).message
-            )
+            if (response.status == 403) {
+                // refresh the tokens
+                refreshTokens(uploadFile(file))
+            } else {
+                alert(
+                    JSON.parse(
+                        JSON.stringify(data, null, 2),
+                        {message: String} // typical message class
+                    ).message
+                )
+            }
         } else {
             alert(
                 JSON.parse(
@@ -130,8 +172,44 @@ async function uploadFile(file) {
             if (file.name === lastFileName) // this trick is done to close the form when the last file is uploaded
                 uploadDialog()
         }
+    } catch (error) {
+        console.error('Error: ', error);
+    }
+}
 
-        console.log('Received: ', JSON.stringify(data, null, 2));
+async function logOut() {
+    try {
+        const response = await fetch(BaseURL + 'logout', {
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            },
+            method: 'GET'
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+            if (response.status == 403) {
+                // refresh the tokens
+                refreshTokens(logOut())
+            } else {
+                alert(
+                    JSON.parse(
+                        JSON.stringify(data, null, 2),
+                        {message: String} // typical message class
+                    ).message
+                )
+            }
+        } else {
+            console.log(JSON.stringify(data, null, 2));
+            // move to the sign up menu, clean the tokens
+            accessToken = "";
+            localStorage.setItem('accessToken', "");
+            refreshToken = "";
+            localStorage.setItem('refreshToken', "");
+
+            window.location.href="index.html";
+            return
+        }
     } catch (error) {
         console.error('Error: ', error);
     }
