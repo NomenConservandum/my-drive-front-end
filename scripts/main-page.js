@@ -125,7 +125,6 @@ function previewFile(file) {
     
     preview.appendChild(fileDiv);
     uploadFile(file);
-    getFiles()
 }
 
 
@@ -145,10 +144,11 @@ function handleUploadedFiles(files) {
 function viewFile(file) {
     const fileDiv = document.createElement('div');
     fileDiv.className = 'file-item'; // to be changed
-
+    /*
     fileDiv.addEventListener('click', async function() {
         alert("nothing here yet");
     });
+    */
     
     
     fileDiv.innerHTML = `
@@ -156,9 +156,22 @@ function viewFile(file) {
     <p>Owned by ${file.owner}</p>
     <p>${formatFileSize(file.size)}</p>
     <p>Uploaded at ${file.time || 'NO DATE'}</p>
+    <div class="flex-style">
+    <button id="${file.id}-delete" class="button-delete">Delete</button>
+    <button id="${file.id}-download" class="button-download">Download</button>
+    </div>
     `;
-    
+
     files.appendChild(fileDiv);
+
+    const downloadButton = document.getElementById(file.id + "-download")
+    const deleteButton = document.getElementById(file.id + "-delete")
+    downloadButton.addEventListener('click', async function() {
+        alert(`Want to download ${file.name}?`);
+    });
+    deleteButton.addEventListener('click', async function() {
+        alert(`Want to delete ${file.name}?`);
+    });
 }
 
 
@@ -207,8 +220,11 @@ async function uploadFile(file) {
                 ).message
             )
             // close the form
-            if (file.name === lastFileName) // this trick is done to close the form when the last file is uploaded
+            if (file.name === lastFileName) { // this trick is done to close the form when the last file is uploaded
                 uploadDialog()
+
+                location.reload(); // helps reload the preview
+            }
         }
     } catch (error) {
         console.error('Error: ', error);
@@ -240,7 +256,7 @@ async function getFiles() {
                 );
             }
         } else {
-            console.log(JSON.stringify(data, null, 2));
+            //console.log(JSON.stringify(data, null, 2));
             handleUploadedFiles(data);
         }
     } catch (error) {
