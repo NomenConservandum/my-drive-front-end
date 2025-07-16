@@ -81,15 +81,13 @@ async function signUp() {
     const username = document.getElementById('username-signup').value;
     const password = document.getElementById('password-signup').value;
 
-    console.log(JSON.stringify({
+    console.log("Sent data: ", JSON.stringify({
                 username: username,
                 password: password
             }));
-    console.log(BaseURL);
 
     try {
         const response = await fetch(BaseURL + 'register', {
-            // headers: {'Content-Type': 'application/json'},
             method: 'POST',
             body: JSON.stringify({
                 username: username,
@@ -97,9 +95,57 @@ async function signUp() {
             })
         });
         const data = await response.json();
-        console.log('Success: ', JSON.stringify(data, null, 2));
-        
+
+        if (!response.ok) {
+            alert(
+                JSON.parse(
+                    JSON.stringify(data, null, 2),
+                    {message: String}
+                ).message
+            )
+        } else {
+            // save the tokens and move to the main page
+        }
+
+        console.log('Received: ', JSON.stringify(data, null, 2));
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error: ', error);
     }
 }
+
+async function signIn() {
+    const username = document.getElementById('username-signin').value;
+    const password = document.getElementById('password-signin').value;
+
+    console.log("Sent data: ", JSON.stringify({
+                username: username,
+                password: password
+            }));
+
+    try {
+        const response = await fetch(BaseURL + 'login', {
+            method: 'POST',
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        });
+        const data = await response.json();
+        
+        if (!response.ok) {
+            alert(
+                JSON.parse(
+                    JSON.stringify(data, null, 2),
+                    {message: String}
+                ).message
+            )
+        } else {
+            // save the tokens and move to the main page
+        }
+
+        console.log('Received: ', JSON.stringify(data, null, 2));
+    } catch (error) {
+        console.error('Error: ', error);
+    }
+}
+
