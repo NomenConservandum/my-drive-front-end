@@ -5,6 +5,8 @@ BaseURL = localStorage.getItem('BaseURL');
 accessToken = localStorage.getItem('accessToken');
 refreshToken = localStorage.getItem('refreshToken');
 
+getFiles()
+
 async function refreshTokens(func) {
     const responseRefresh = await fetch(BaseURL + 'refresh', {
         method: 'POST',
@@ -53,6 +55,7 @@ function uploadDialog() {
 const dropArea = document.getElementById('dropArea');
 const fileInput = document.getElementById('fileInput');
 const preview = document.getElementById('preview');
+const files = document.getElementById('files');
 var lastFileName;
 
 // Prevent default drag behaviors
@@ -110,7 +113,7 @@ function handleFiles(files) {
     }
 }
 
-// Preview non-image files
+// Preview files
 function previewFile(file) {
     const fileDiv = document.createElement('div');
     fileDiv.className = 'file-item';
@@ -122,7 +125,42 @@ function previewFile(file) {
     
     preview.appendChild(fileDiv);
     uploadFile(file);
+    getFiles()
 }
+
+
+// Process uploaded files
+function handleUploadedFiles(files) {
+    preview.innerHTML = '';
+    
+    if (files === null || files.length === 0) return;
+    
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        viewFile(file);
+    }
+}
+
+// View all uploaded files
+function viewFile(file) {
+    const fileDiv = document.createElement('div');
+    fileDiv.className = 'file-item'; // to be changed
+
+    fileDiv.addEventListener('click', async function() {
+        alert("nothing here yet");
+    });
+    
+    
+    fileDiv.innerHTML = `
+    <p><strong>${file.name}</strong></p>
+    <p>Owned by ${file.owner}</p>
+    <p>${formatFileSize(file.size)}</p>
+    <p>Uploaded at ${file.time || 'NO DATE'}</p>
+    `;
+    
+    files.appendChild(fileDiv);
+}
+
 
 // Format file size
 function formatFileSize(bytes) {
@@ -171,6 +209,39 @@ async function uploadFile(file) {
             // close the form
             if (file.name === lastFileName) // this trick is done to close the form when the last file is uploaded
                 uploadDialog()
+        }
+    } catch (error) {
+        console.error('Error: ', error);
+    }
+}
+
+async function getFiles() {
+
+    try {
+        const response = await fetch(BaseURL + 'files', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + accessToken
+            },
+            method: 'GET'
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+            if (response.status == 403) {
+                // refresh the tokens
+                refreshTokens(getFiles())
+            } else {
+                alert(
+                    JSON.parse(
+                        JSON.stringify(data, null, 2),
+                        {message: String} // typical message class
+                    ).message
+                );
+            }
+        } else {
+            console.log(JSON.stringify(data, null, 2));
+            handleUploadedFiles(data);
         }
     } catch (error) {
         console.error('Error: ', error);

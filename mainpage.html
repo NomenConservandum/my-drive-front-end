@@ -7,16 +7,29 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div class="header">
-        <a class="logo">My Drive</a>
-        <div class="header-right">
-            <a href="contact.html">Contact</a>
-            <a href="about.html">About</a>
-            <a onclick="logOut()">Log Out</a>
-        </div>
-    </div>
-    <button class="floating-btn" id="upload-button" onclick="uploadDialog()">+</button>
     <div class="body-modified">
+    
+        <div class="body-modified-antidote">
+            <div class="header">
+                <a class="logo">My Drive</a>
+                <div class="header-right">
+                    <a href="contact.html">Contact</a>
+                    <a href="about.html">About</a>
+                    <a onclick="logOut()">Log Out</a>
+                </div>
+            </div>
+
+            
+
+            <div id="files"></div>
+
+        </div>
+
+
+        <button class="floating-btn" id="upload-button" onclick="uploadDialog()">+</button>
+        
+        
+
         <div class="floating-form" id="upload-form">
             <h2>Upload your file</h2>
             <h4 class="hint-text">Drag n' drop or choose it from you computer</h4>
