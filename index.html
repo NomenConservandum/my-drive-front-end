@@ -7,64 +7,61 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <div class="body-modified">
+        <div id="insertAPIKey" class="authentication-dialog">
+            <h2>Welcome to My Drive!</h2>
+            <h3>API key is required to proceed.</h3>
+            <form id="authForm">
+                <label for="api-key-label">API key</label><br>
+                <input type="text" id="api-key" name="api-key" required><br><br>
+                
+                <button type="button" id="api-key-submit" onclick="APIKeyInsertion()">Submit</button>
 
-    <div id="insertAPIKey" class="authentication-dialog">
-        <h2>Welcome to My Drive!</h2>
-        <h3>API key is required to proceed.</h3>
-        <form id="authForm">
-            <label for="api-key-label">API key</label><br>
-            <input type="text" id="api-key" name="api-key" required><br><br>
-            
-            <button type="button" id="api-key-submit" onclick="APIKeyInsertion()">Submit</button>
+                <h4 class="hint-text">Don't have an API key?</h4>
+                <div class="centered-half-width">
+                    <button type="button" class="hint-button" onclick="contactPage()">Contact me!</button> <!--TODO: implement-->
+                </div>
+            </form>
+        </div>
 
-            <h4 class="hint-text">Don't have an API key?</h4>
-            <div class="centered-half-width">
-                <button type="button" class="hint-button" onclick="">Contact me!</button> <!--TODO: implement-->
-            </div>
-        </form>
+        <div id="signInDialog" class="authentication-dialog">
+            <h2>Welcome back to My Drive!</h2>
+            <form id="authForm">
+                <label for="username-signin">Username</label><br>
+                <input type="text" id="username-signin" name="username-signin" required><br><br>
+                
+                <label for="password-signin">Password</label><br>
+                <input type="password" id="password-signin" name="password-signin" required><br><br>
+                
+                
+                <button type="button" id="signInButton" onclick="signIn()">Log In</button> <!-- TODO: FIX -->
+
+                <h4 class="hint-text">Don't have an account yet?</h4>
+                <div class="centered-half-width">
+                    <button type="button" class="hint-button" onclick="signUpDialog('signInDialog')">Register!</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="signUpDialog" class="authentication-dialog">
+            <h2>Welcome to My Drive!</h2>
+            <h3>This is an experimental platform to share data.</h3>
+            <form id="authForm">
+                <label for="username-signup">Username</label><br>
+                <input type="text" id="username-signup" name="username-signup" required><br><br>
+                
+                <label for="password-signup">Password</label><br>
+                <input type="password" id="password-signup" name="password-signup" required><br><br>
+                
+                <button type="button" id="signUpButton" onclick="signUp()">Sign Up</button>  <!-- TODO: FIX -->
+
+                <h4 class="hint-text">Have an account already?</h4>
+                <div class="centered-half-width">
+                    <button type="button" class="hint-button" onclick="signInDialog('signUpDialog')">Log In!</button>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <div id="signInDialog" class="authentication-dialog">
-        <h2>Welcome back to My Drive!</h2>
-        <form id="authForm">
-            <label for="username-signin">Username</label><br>
-            <input type="text" id="username-signin" name="username-signin" required><br><br>
-            
-            <label for="password-signin">Password</label><br>
-            <input type="password" id="password-signin" name="password-signin" required><br><br>
-            
-            
-            <button type="button" id="signInButton" onclick="signIn()">Log In</button> <!-- TODO: FIX -->
-
-            <h4 class="hint-text">Don't have an account yet?</h4>
-            <div class="centered-half-width">
-                <button type="button" class="hint-button" onclick="signUpDialog('signInDialog')">Register!</button>
-            </div>
-        </form>
-    </div>
-
-    <div id="signUpDialog" class="authentication-dialog">
-        <h2>Welcome to My Drive!</h2>
-        <h3>This is an experimental platform to share data.</h3>
-        <form id="authForm">
-            <label for="username-signup">Username</label><br>
-            <input type="text" id="username-signup" name="username-signup" required><br><br>
-            
-            <label for="password-signup">Password</label><br>
-            <input type="password" id="password-signup" name="password-signup" required><br><br>
-            
-            <button type="button" id="signUpButton" onclick="signUp()">Sign Up</button>  <!-- TODO: FIX -->
-
-            <h4 class="hint-text">Have an account already?</h4>
-            <div class="centered-half-width">
-                <button type="button" class="hint-button" onclick="signInDialog('signUpDialog')">Log In!</button>
-            </div>
-        </form>
-    </div>
-
-    <div id="mainPage" class="main-page">
-    </div>
-    <script src="scripts/sensitive.js"></script>
     <script src="scripts/auth-dialog.js"></script>
 </body>
 </html>

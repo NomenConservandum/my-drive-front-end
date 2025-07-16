@@ -8,7 +8,7 @@ async function authorization() {
         // checks the URL
         BaseURL = localStorage.getItem('BaseURL');
         try {
-            const response = await fetch(BaseURL + 'check', { // TODO: check should also require token
+            const response = await fetch(BaseURL + 'check', { // TODO: check should also process the tokens
                 headers: {'Content-Type': 'application/json'},
                 method: 'GET'
             });
@@ -19,7 +19,7 @@ async function authorization() {
                 localStorage.setItem('BaseURL', "");
                 alert("The API key was invalid");
             } else {
-                signInDialog('signUpDialog'); // temporary solution. Will be fixed with JWT
+                mainPage(); // temporary solution. Will be fixed with JWT
             }
             
         } catch (error) {
@@ -77,6 +77,14 @@ function signInDialog(name) {
     document.getElementById('signInDialog').style.display = 'block';
 }
 
+function mainPage() {
+    window.location.href="mainpage.html";
+}
+
+function contactPage() {
+    window.location.href="contact.html";
+}
+
 async function signUp() {
     const username = document.getElementById('username-signup').value;
     const password = document.getElementById('password-signup').value;
@@ -100,11 +108,12 @@ async function signUp() {
             alert(
                 JSON.parse(
                     JSON.stringify(data, null, 2),
-                    {message: String}
+                    {message: String} // typical error class
                 ).message
             )
         } else {
             // save the tokens and move to the main page
+            mainPage()
         }
 
         console.log('Received: ', JSON.stringify(data, null, 2));
@@ -136,11 +145,12 @@ async function signIn() {
             alert(
                 JSON.parse(
                     JSON.stringify(data, null, 2),
-                    {message: String}
+                    {message: String} // typical error class
                 ).message
             )
         } else {
             // save the tokens and move to the main page
+            mainPage()
         }
 
         console.log('Received: ', JSON.stringify(data, null, 2));
