@@ -140,6 +140,58 @@ function handleUploadedFiles(files) {
     }
 }
 
+async function Delete(id) {
+    //alert(`Want to delete ${file.name}?`);
+    // TODO: a dialog window probably
+}
+
+async function Download(id) {
+    //alert(`Want to download ${file.name}?`);
+    // TODO: a dialog window probably
+    try {
+        const response = await fetch(BaseURL + 'files/' + id, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + accessToken
+            },
+            method: 'GET'
+        });
+        //const data = await response.json();
+
+        if (!response.ok) {
+            if (response.status == 403) {
+                // refresh the tokens
+                refreshTokens(Download(id))
+            } else {
+                // 3. Get the filename from headers or response
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                }, 100);
+                
+                // 6. Clean up
+                //window.URL.revokeObjectURL(url);
+                //document.body.removeChild(a);
+            }
+        } else {
+            alert(
+                "an error"
+            )
+        }
+    } catch (error) {
+        console.error('Error: ', error);
+    }
+}
+
 // View all uploaded files
 function viewFile(file) {
     const fileDiv = document.createElement('div');
@@ -167,11 +219,58 @@ function viewFile(file) {
     const downloadButton = document.getElementById(file.id + "-download")
     const deleteButton = document.getElementById(file.id + "-delete")
     downloadButton.addEventListener('click', async function() {
-        alert(`Want to download ${file.name}?`);
+        //alert(`Want to download ${file.name}?`);
+        // TODO: a dialog window probably
+        try {
+            const response = await fetch(BaseURL + 'files/' + file.id, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + accessToken
+                },
+                method: 'GET'
+            });
+            //const data = await response.json();
+
+            if (!response.ok) {
+                if (response.status == 403) {
+                    // refresh the tokens
+                    refreshTokens(Download(file.id))
+                } else {
+                    alert(
+                        "an error"
+                    )
+                    
+                    
+                    // 6. Clean up
+                    //window.URL.revokeObjectURL(url);
+                    //document.body.removeChild(a);
+                }
+            } else {
+                // 3. Get the filename from headers or response
+                const contentDisposition = response.headers.get('Content-Disposition');
+                const filename = contentDisposition
+                    ? contentDisposition.split('filename=')[1].replace(/"/g, '')
+                    : file.name;
+
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                }, 100);
+            }
+        } catch (error) {
+            console.error('Error: ', error);
+        }
     });
-    deleteButton.addEventListener('click', async function() {
-        alert(`Want to delete ${file.name}?`);
-    });
+    deleteButton.addEventListener('click', Delete(file.id));
 }
 
 

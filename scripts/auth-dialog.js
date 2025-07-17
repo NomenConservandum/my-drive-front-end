@@ -36,6 +36,8 @@ async function authorization() {
                 if (!responseRefresh.ok) {
                     insertAPIKeyDialog();
                     localStorage.setItem('BaseURL', "");
+                    localStorage.setItem('accessToken', "");
+                    localStorage.setItem('refreshToken', "");
                     return
                 } else { // the refreshment of the tokens went good
                     const dataRefresh = await responseRefresh.json();
